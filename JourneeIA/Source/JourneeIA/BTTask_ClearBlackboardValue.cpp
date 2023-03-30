@@ -2,11 +2,23 @@
 
 
 #include "BTTask_ClearBlackboardValue.h"
+#include "BehaviorTree/BlackboardComponent.h"
+#include "Kismet/GameplayStatics.h"
 
 UBTTask_ClearBlackboardValue::UBTTask_ClearBlackboardValue()
 {
     NodeName = TEXT("Clear Blackboard Value");
 
     
+}
+
+EBTNodeResult::Type UBTTask_ClearBlackboardValue::ExecuteTask(UBehaviorTreeComponent & OwnerComp, uint8 * NodeMemory)
+{
+    Super::ExecuteTask(OwnerComp, NodeMemory);
+
+    OwnerComp.GetBlackboardComponent()->ClearValue(GetSelectedBlackboardKey()); 
+    UKismetSystemLibrary::PrintString(this, "Clearing key value");
+
+    return EBTNodeResult::Succeeded;
 }
 
